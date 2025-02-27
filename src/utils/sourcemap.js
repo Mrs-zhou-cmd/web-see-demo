@@ -12,6 +12,7 @@ function repalceAll(str) {
 }
 
 function loadSourceMap(fileName) {
+  console.log(fileName); 
   let file = matchStr(fileName);
   if (!file) return;
   return new Promise((resolve) => {
@@ -21,11 +22,17 @@ function loadSourceMap(fileName) {
   });
 }
 
+/**
+ * 
+ */
 export const findCodeBySourceMap = async ({ fileName, line, column }, callback) => {
   console.log('fileName', fileName);
+  //loadSourceMap 用于获取服务器上.map文件内容
   let sourceData = await loadSourceMap(fileName);
   if (!sourceData) return;
   let { sourcesContent, sources } = sourceData;
+  // SourceMapConsumer 实例表示一个已解析的源映射
+  // 
   let consumer = await new sourceMap.SourceMapConsumer(sourceData);
   let result = consumer.originalPositionFor({
     line: Number(line),
@@ -68,6 +75,7 @@ export const findCodeBySourceMap = async ({ fileName, line, column }, callback) 
       message: `源码解析失败`
     });
   }
+  // 从sourcesContent获取源码的信息
   let code = sourcesContent[index];
   let codeList = code.split('\n');
   var row = result.line,

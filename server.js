@@ -12,11 +12,11 @@ app.use(serveStatic(rootPath));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
-app.all('*', function (res, req, next) {
-  req.header('Access-Control-Allow-Origin', '*');
-  req.header('Access-Control-Allow-Headers', 'Content-Type');
-  req.header('Access-Control-Allow-Methods', '*');
-  req.header('Content-Type', 'application/json;charset=utf-8');
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', '*');
+  res.header('Content-Type', 'application/json;charset=utf-8');
   next();
 });
 
@@ -48,7 +48,7 @@ app.get('/getmap', (req, res) => {
 app.get('/getErrorList', (req, res) => {
   res.send({
     code: 200,
-    data: errorList
+    data: errorList 
   });
 });
 
@@ -63,6 +63,7 @@ app.get('/getRecordScreenId', (req, res) => {
 
 app.post('/reportData', async (req, res) => {
   try {
+    console.log('1233333333333')
     // req.body 不为空时为正常请求，如录屏信息
     let length = Object.keys(req.body).length;
     if (length) {
