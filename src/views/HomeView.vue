@@ -1,5 +1,16 @@
 <template>
   <div class="home">
+    <div class="search-bar">
+      <div class="search-item">
+        <span>项目标识:</span>
+        <el-select v-model="apikey" placeholder="项目标识" clearable @change="filterData">
+          <el-option v-for="item in options" :key="item.apikey" :label="item.appName" :value="item.apikey"/>
+        </el-select>
+      </div>
+      <div class="search-item">
+        <el-button type="primay" @click="addApp">新增</el-button>
+      </div>
+    </div>
     <el-button type="primary" @click="codeErr">js错误1</el-button>
     <el-button type="success" @click="asyncError">异步错误</el-button>
     <el-button type="danger" @click="promiseErr">promise错误</el-button>
@@ -62,6 +73,7 @@ import { findCodeBySourceMap1 } from '../utils/sourcemap';
 import { unzip } from '../utils/recordScreen.js';
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
+import axios from 'axios';
 
 export default {
   name: 'HomeView',
@@ -71,7 +83,9 @@ export default {
       revertdialog: false,
       dialogTitle: '',
       activities: [],
-      tableData: []
+      tableData: [],
+      apikey:'',
+      options:[]
     };
   },
   created() {
@@ -79,6 +93,7 @@ export default {
   },
   mounted() {
     this.myEcharts();
+    this.getOptionDatas();
   },
   directives:{
     
@@ -113,6 +128,16 @@ export default {
 
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
+    },
+    filterData(){
+
+    },
+    addApp(){
+
+    },
+    async getOptionDatas(){
+      const res=await axios.get('http://localhost:8083/getapps');
+      this.options=res.data.data;
     },
     getTableData() {
       setTimeout(() => {
@@ -252,7 +277,16 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
+.search-bar{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    .el-select--mini{
+      margin: 0 10px;
+    }
+}
 .error {
   margin-top: 20px;
   height: 30px;
