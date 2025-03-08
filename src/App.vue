@@ -21,7 +21,7 @@
   padding: 0 10px;
 }
 .logoHeader {
-  width: 100%;
+  //width: 100%;
   padding: 10px 20px;
   text-align: left;
   background-color: #ffffff;

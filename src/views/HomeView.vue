@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <el-button type="primary" @click="codeErr">js错误</el-button>
+    <el-button type="primary" @click="codeErr">js错误1</el-button>
     <el-button type="success" @click="asyncError">异步错误</el-button>
     <el-button type="danger" @click="promiseErr">promise错误</el-button>
     <el-button type="info" @click="xhrError">xhr请求报错</el-button>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { findCodeBySourceMap } from '../utils/sourcemap';
+import { findCodeBySourceMap1 } from '../utils/sourcemap';
 import { unzip } from '../utils/recordScreen.js';
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
@@ -79,6 +79,9 @@ export default {
   },
   mounted() {
     this.myEcharts();
+  },
+  directives:{
+    
   },
   methods: {
     myEcharts() {
@@ -153,7 +156,7 @@ export default {
       this.activities = breadcrumb;
     },
     revertCode(row) {
-      findCodeBySourceMap(row, (res) => {
+      findCodeBySourceMap1(row, (res) => {
         this.dialogTitle = '查看源码';
         this.fullscreen = false;
         this.revertdialog = true;
@@ -177,6 +180,7 @@ export default {
                 target: document.getElementById('revert'),
                 props: {
                   events,
+                  // 回放的时候开启回放canvas内容
                   UNSAFE_replayCanvas: true
                 }
               });
@@ -202,7 +206,10 @@ export default {
     },
     codeErr() {
       this.getTableData();
+      console.log(12311); 
+      
       let a = undefined;
+      // let a=[1,2];
       if (a.length) {
         console.log('1');
       }

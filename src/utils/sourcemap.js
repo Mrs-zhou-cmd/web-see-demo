@@ -25,7 +25,7 @@ function loadSourceMap(fileName) {
 /**
  * 
  */
-export const findCodeBySourceMap = async ({ fileName, line, column }, callback) => {
+export const findCodeBySourceMap1 = async ({ fileName, line, column }, callback) => {
   console.log('fileName', fileName);
   //loadSourceMap 用于获取服务器上.map文件内容
   let sourceData = await loadSourceMap(fileName);
