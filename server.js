@@ -63,13 +63,14 @@ app.get('/getRecordScreenId', (req, res) => {
 
 app.post('/reportData', async (req, res) => {
   try {
-    console.log('1233333333333')
+    // console.log('1233333333333')
     // req.body 不为空时为正常请求，如录屏信息
     let length = Object.keys(req.body).length;
     if (length) {
       recordScreenList.push(req.body);
     } else {
       // 使用 web beacon 上报数据
+      // co-body 可能是为了更灵活地处理非标准数据格式
       let data = await coBody.json(req);
       if (!data) return;
       if (data.type == 'performance') {
