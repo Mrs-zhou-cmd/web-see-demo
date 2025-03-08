@@ -20,6 +20,49 @@ app.all('*', function (req, res, next) {
   next();
 });
 
+// 先获取app数据
+const appDataPath=path.join(__dirname,'apps-data.json');
+// 读取app数据
+function loadAppData(){
+  try{
+    const data=fs.readFileSync(appDataPath,'utf-8');
+    return JSON.parse(data);
+  }
+  catch{
+    return {apps:[]}
+  }
+}
+let {apps}=loadAppData();
+// 获取app数据
+app.get('/getapps',(req,res)=>{
+  // let {apps}=loadAppData();
+  res.send({
+    code:200,
+    data:apps
+  })
+});
+// 添加app数据
+app.post('/addapp',(req,res)=>{
+  try{
+    apps.push(req.body);
+    saveData({apps},appDataPath);
+    res.send({
+      code:200,
+      message:'添加成功',
+    })
+  }
+  catch(err){
+    res.send({
+      code:203,
+      message:'添加失败',
+      err
+    })
+  }
+});
+// 保存数据到指定路径
+function saveData(data,path){
+  fs.writeFileSync(path,JSON.stringify(data),'utf-8');
+}
 // 存储性能数据
 let performanceList = [];
 // 存储错误数据
